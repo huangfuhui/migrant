@@ -47,6 +47,7 @@ func NewCmd(args []string) (command *Cmd, err error) {
 	}
 
 	c := strings.ToLower(args[0])
+	cmd.Command = c
 	cmd.Args = args[1:]
 
 	commander := CommandFactory(c)

@@ -49,7 +49,12 @@ func (h *HelpCmd) Exec() (err error) {
 	} else if len(args) > 1 {
 		return errors.New("command 'help' just need one argument.")
 	} else {
-
+		helper := helperFactory(args[0])
+		if helper == nil {
+			fmt.Println("could not find usage of '" + args[0] + "'.")
+			return
+		}
+		fmt.Println(helper.Usage())
 	}
 
 	return
@@ -62,4 +67,28 @@ Displays help for a command.
 Usage:
 	help [command]
 `
+}
+
+type helper interface {
+	Usage() string
+}
+
+// This factory would return an instance of Command,
+// and suppose be use on help command only.
+func helperFactory(c string) helper {
+	switch c {
+	case Help:
+		return &HelpCmd{cmd}
+	case Migrate:
+
+	case Make:
+
+	case Rollback:
+
+	case Reset:
+
+	case Fresh:
+	}
+
+	return nil
 }
