@@ -41,13 +41,6 @@ type HelpCmd struct {
 	Command *Cmd
 }
 
-func ExecHelp(command *Cmd) {
-	help := &HelpCmd{command}
-	if err := help.Exec(); err != nil {
-		fmt.Println(err)
-	}
-}
-
 func (h *HelpCmd) Exec() (err error) {
 	args := h.Command.Args
 	if len(args) == 0 {

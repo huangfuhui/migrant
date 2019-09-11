@@ -34,9 +34,11 @@ type Cmd struct {
 	Args    []string
 }
 
+var cmd *Cmd
+
 // init Cmd.
 func NewCmd(args []string) (command *Cmd, err error) {
-	command = &Cmd{}
+	cmd = &Cmd{}
 
 	args = args[1:]
 	if len(args) == 0 {
@@ -45,11 +47,38 @@ func NewCmd(args []string) (command *Cmd, err error) {
 	}
 
 	c := strings.ToLower(args[0])
-	command.Args = args[1:]
+	cmd.Args = args[1:]
+
+	commander := CommandFactory(c)
+	if commander == nil {
+		// args error
+		fmt.Println(util.ArgsErrMsg(c, []string{}))
+		return
+	}
+	err = commander.Exec()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	return
+}
+
+// execute migration.
+func (c *Cmd) Exec() error {
+	return nil
+}
+
+// Any Commands should inherit this interface.
+type Command interface {
+	Usage() string
+	Exec() error
+}
+
+// A factory which produce CMD instance.
+func CommandFactory(c string) Command {
 	switch c {
 	case Help:
-		command.Command = Help
-		ExecHelp(command)
+		return &HelpCmd{cmd}
 	case Migrate:
 
 	case Make:
@@ -59,16 +88,7 @@ func NewCmd(args []string) (command *Cmd, err error) {
 	case Reset:
 
 	case Fresh:
-
-	default:
-		// args error
-		fmt.Println(util.ArgsErrMsg(c, []string{}))
 	}
 
-	return
-}
-
-// execute migration.
-func (c *Cmd) Exec() error {
 	return nil
 }
