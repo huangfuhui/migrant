@@ -13,3 +13,6 @@
 
 # Goland's file
 .idea
+
+# Local files and directory
+/test
