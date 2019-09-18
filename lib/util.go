@@ -12,25 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package util
+package lib
 
-import (
-	"testing"
-)
-
-func TestNewParam(t *testing.T) {
-	s := []string{
-		`--name=hello`,
-		`--Num0=98`,
-		`--type==youKnown`,
-		`--=`,
-		`-ping=pong`,
+// tips for wrong arguments.
+func ArgsErrMsg(args string, maybe []string) string {
+	msg := "the argument '" + args + "' is not valid."
+	if len(maybe) > 0 {
+		msg += " maybe try with '"
+		for _, v := range maybe {
+			msg += v + " "
+		}
+		msg += "' again."
 	}
 
-	param, err := NewParam(s)
-	if err == nil || param == nil {
-		t.Error("the regexp-parser doesn't work well, some params are not supposed.")
-	} else if len(param.values) != 2 || param.values["name"] != "hello" || param.values["Num0"] != "98" {
-		t.Error("the regexp-parser doesn't work well, and the parse result is:", param.values)
-	}
+	return msg
 }

@@ -12,35 +12,4 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package config
-
-import (
-	"encoding/json"
-	"io/ioutil"
-)
-
-type Config struct {
-	// database name source
-	DNS string `json:"dns"`
-	// database driver, only support MySQL now
-	Driver       string `json:"driver"`
-	DatabaseName string `json:"database_name"`
-	TablePrefix  string `json:"table_prefix"`
-}
-
-// load config by config file
-func NewConfig(configFile string) (conf *Config, err error) {
-	conf = &Config{}
-
-	data, err := ioutil.ReadFile(configFile)
-	if err != nil {
-		return
-	}
-
-	err = json.Unmarshal(data, conf)
-	if err != nil {
-		return
-	}
-
-	return
-}
+package lib

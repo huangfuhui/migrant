@@ -16,7 +16,7 @@ package cmd
 
 import (
 	"fmt"
-	"migrant/util"
+	"migrant/lib"
 	"strings"
 )
 
@@ -53,7 +53,7 @@ func NewCmd(args []string) (command *Cmd, err error) {
 	commander := CommandFactory(c)
 	if commander == nil {
 		// args error
-		fmt.Println(util.ArgsErrMsg(c, []string{}))
+		fmt.Println(lib.ArgsErrMsg(c, []string{}))
 		return
 	}
 	err = commander.Exec()

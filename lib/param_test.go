@@ -12,33 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package util
+package lib
 
 import (
-	"errors"
-	"regexp"
+	"testing"
 )
 
-type Param struct {
-	values map[string]string
-}
-
-// Parse the command arguments and return Param.
-func NewParam(s []string) (param *Param, err error) {
-	param = &Param{}
-	param.values = make(map[string]string)
-
-	reg := regexp.MustCompile(`^--(\w+?)=(\w+?)$`)
-	for _, v := range s {
-		res := reg.FindStringSubmatch(v)
-
-		if len(res) != 3 {
-			err = errors.New(ArgsErrMsg(v, []string{}))
-			return
-		}
-
-		param.values[res[1]] = res[2]
+func TestNewParam(t *testing.T) {
+	s := []string{
+		`--name=hello`,
+		`--Num0=98`,
+		`--type==youKnown`,
+		`--=`,
+		`-ping=pong`,
 	}
 
-	return
+	param, err := NewParam(s)
+	if err == nil || param == nil {
+		t.Error("the regexp-parser doesn't work well, some params are not supposed.")
+	} else if len(param.values) != 2 || param.values["name"] != "hello" || param.values["Num0"] != "98" {
+		t.Error("the regexp-parser doesn't work well, and the parse result is:", param.values)
+	}
 }
