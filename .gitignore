@@ -15,4 +15,6 @@
 .idea
 
 # Local files and directory
-/test
+go.sum
+vendor
+debug
