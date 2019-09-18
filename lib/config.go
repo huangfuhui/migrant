@@ -23,9 +23,8 @@ type Config struct {
 	// database name source
 	DNS string `json:"dns"`
 	// database driver, only support MySQL now
-	Driver       string `json:"driver"`
-	DatabaseName string `json:"database_name"`
-	TablePrefix  string `json:"table_prefix"`
+	Driver      string `json:"driver"`
+	TablePrefix string `json:"table_prefix"`
 }
 
 // load config by config file

@@ -21,20 +21,19 @@ import (
 
 func TestNewConfig(t *testing.T) {
 	var err error
-	if _, err := os.Stat("../test"); err != nil {
-		err = os.Mkdir("../test", os.ModePerm)
+	if _, err := os.Stat("../debug"); err != nil {
+		err = os.Mkdir("../debug", os.ModePerm)
 		if err != nil {
 			t.Error(err)
 		}
 	}
 
 	confStr := `{
-  "dns": "root:@tcp(127.0.0.1:3306)?charset=utf8&parseTime=True&loc=Local",
+  "dns": "root@tcp(127.0.0.1:3306)/migrant?charset=utf8&parseTime=True&loc=Local",
   "driver": "mysql",
-  "database_name": "migrant",
   "table_prefix": ""
 }`
-	file, err := os.OpenFile("../test/migrant.json", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
+	file, err := os.OpenFile("../debug/migrant.json", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
 	if err != nil {
 		t.Error(err)
 	}
@@ -44,7 +43,7 @@ func TestNewConfig(t *testing.T) {
 		t.Error(err)
 	}
 
-	_, err = NewConfig("../test/migrant.json")
+	_, err = NewConfig("../debug/migrant.json")
 	if err != nil {
 		t.Error(err)
 	}
