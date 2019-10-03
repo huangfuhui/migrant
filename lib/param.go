@@ -28,7 +28,7 @@ func NewParam(s []string) (param *Param, err error) {
 	param = &Param{}
 	param.values = make(map[string]string)
 
-	reg := regexp.MustCompile(`^--(\w+?)=(\w+?)$`)
+	reg := regexp.MustCompile(`^--(\w+?)=(.+?)$`)
 	for _, v := range s {
 		res := reg.FindStringSubmatch(v)
 
@@ -41,4 +41,12 @@ func NewParam(s []string) (param *Param, err error) {
 	}
 
 	return
+}
+
+func (p *Param) Get(k string) (v string) {
+	return p.values[k]
+}
+
+func (p *Param) All() map[string]string {
+	return p.values
 }

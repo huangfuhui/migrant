@@ -29,8 +29,36 @@ func TestNewParam(t *testing.T) {
 
 	param, err := NewParam(s)
 	if err == nil || param == nil {
-		t.Error("the regexp-parser doesn't work well, some params are not supposed.")
-	} else if len(param.values) != 2 || param.values["name"] != "hello" || param.values["Num0"] != "98" {
+		t.Error("the regexp-parser doesn't work well, some params are not supposed")
+	} else if len(param.values) != 3 || param.values["name"] != "hello" || param.values["Num0"] != "98" {
 		t.Error("the regexp-parser doesn't work well, and the parse result is:", param.values)
+	}
+}
+
+func TestParam_Get(t *testing.T) {
+	s := []string{
+		`--name=hello`,
+		`--file=migrant.conf`,
+	}
+
+	param, err := NewParam(s)
+	if err != nil {
+		t.Error("the regexp-parser doesn't work well, some params are not supposed")
+	} else if res := param.Get("file"); res != "migrant.conf" {
+		t.Error("the regexp-parser doesn't work well")
+	}
+}
+
+func TestParam_All(t *testing.T) {
+	s := []string{
+		`--name=hello`,
+		`--file=migrant.conf`,
+	}
+
+	param, err := NewParam(s)
+	if err != nil {
+		t.Error("the regexp-parser doesn't work well, some params are not supposed")
+	} else if res := param.All(); res == nil {
+		t.Error("the regexp-parser doesn't work well")
 	}
 }
